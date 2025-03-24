@@ -65,6 +65,8 @@ def retuvrn_sample_page(nickname, level, rating):
                 </html>"""
 
 
+
+@app.route('/<title>')
 @app.route('/image_mars/<title>')
 def return_sample_page(title):
     return render_template('base.html', title=title)
