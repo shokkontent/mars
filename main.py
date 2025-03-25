@@ -90,5 +90,15 @@ def return_sample_marking(marking):
     return render_template('prof.html', prof=prof, marking=marking)
 
 
+@app.route('/answer')
+@app.route('/auto_answer')
+def return_sample_answer():
+    user = {'title': 'Анкета', 'surname': 'Василий', 'name': 'Ваня', 'education': 'Выше среднего',
+              'profession': 'Повар', 'sex': 'male', 'motivation': 'Хочу и могу',
+              'ready': 'True'}
+    return render_template('auto_answer.html', user=user, title='dgsgsg',
+                           css=url_for('static', filename='css/style.css'))
+
+
 if __name__ == '__main__':
     app.run(port=8080, host='127.0.0.1')

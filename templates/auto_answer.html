@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{{ css }}" />
+    <p>
+        <h1> Фамилия: {{user.surname}} </h1>
+        <h1> Имя: {{user.name}} </h1>
+        <h1> Образование: {{user.education}} </h1>
+        <h1> Профессия: {{user.profession}} </h1>
+        <h1> Пол: {{user.sex}} </h1>
+        <h1> Мотивация: {{user.motivation}} </h1>
+        <h1> Готовы остаться на Марсе? {{user.ready}} </h1>
+
+{% endblock %}
