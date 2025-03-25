@@ -82,5 +82,13 @@ def return_sample_prof(prof):
     return render_template('ship.html', title=title, photo=photo)
 
 
+@app.route('/list_prof/<marking>')
+def return_sample_marking(marking):
+    prof = ['Разработчик Python', 'Data Scientist', 'Machine Learning Engineer', 'DevOps Engineer',
+            'Full-Stack разработчик', 'Backend-разработчик', 'QA инженер', 'Системный администратор',
+            'Специалист по кибербезопасности', 'Аналитик данных']
+    return render_template('prof.html', prof=prof, marking=marking)
+
+
 if __name__ == '__main__':
     app.run(port=8080, host='127.0.0.1')
