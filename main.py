@@ -65,16 +65,22 @@ def retuvrn_sample_page(nickname, level, rating):
                 </html>"""
 
 
-
 @app.route('/<title>')
 @app.route('/image_mars/<title>')
 def return_sample_page(title):
     return render_template('base.html', title=title)
 
 
-'''@app.route('/training/<prof>')
-def return_sample_page(title):
-    return render_template('base.html', title=title)'''
+@app.route('/training/<prof>')
+def return_sample_prof(prof):
+    if prof in 'Инженер' or prof in 'строитель':
+        title = 'Инженерные тренажеры'
+        photo = url_for('static', filename='img/корабль1.jpg')
+    else:
+        title = 'Научные симуляторы'
+        photo = url_for('static', filename='img/корабль2.jpg')
+    return render_template('ship.html', title=title, photo=photo)
+
 
 if __name__ == '__main__':
     app.run(port=8080, host='127.0.0.1')
