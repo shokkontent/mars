@@ -1,6 +1,10 @@
-from flask import Flask, url_for, render_template
+from flask import Flask, url_for, render_template, redirect
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms.validators import DataRequired
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 
 
 @app.route('/image_mars')
@@ -94,10 +98,26 @@ def return_sample_marking(marking):
 @app.route('/auto_answer')
 def return_sample_answer():
     user = {'title': 'Анкета', 'surname': 'Василий', 'name': 'Ваня', 'education': 'Выше среднего',
-              'profession': 'Повар', 'sex': 'male', 'motivation': 'Хочу и могу',
-              'ready': 'True'}
+            'profession': 'Повар', 'sex': 'male', 'motivation': 'Хочу и могу',
+            'ready': 'True'}
     return render_template('auto_answer.html', user=user, title='dgsgsg',
                            css=url_for('static', filename='css/style.css'))
+
+
+class LoginForm(FlaskForm):
+    username = StringField('Логин', validators=[DataRequired()])
+    password = PasswordField('Пароль', validators=[DataRequired()])
+    remember_me = BooleanField('Запомнить меня')
+    submit = SubmitField('Войти')
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        return redirect('/success')
+    photo = url_for('static', filename='img/emblem.png')
+    return render_template('authorization.html', title='Аварийный доступ', form=form, photo=photo)
 
 
 if __name__ == '__main__':
