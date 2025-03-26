@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h4> Размещение по каютам </h4>
+    <div>
+        {% for user in spisok_users %}
+            {{ user }} - Каюта № {{ loop.index }} {% if loop.first %} - капитан корабля {% endif %} <br> <br>
+        {% endfor %}
+    </div>
+{% endblock %}
