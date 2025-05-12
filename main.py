@@ -1,4 +1,4 @@
-from flask import Flask, url_for, render_template, redirect
+from flask import Flask, url_for, render_template, redirect, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired
@@ -125,6 +125,41 @@ def distribution():
     users = ['Дима', 'Вася', 'Петя', 'Таня', 'Маша', 'Варя', 'Геракл']
     return render_template('distribution.html', title='По каютам!', spisok_users=users)
 
+@app.route('/answer')
+@app.route("/auto_answer")
+def auto_answer():
+    param = {}
+    param['title'] = 'Анкета'
+    param['surname'] = 'Watny'
+    param['name'] = 'Mark'
+    param['education'] = 'выше среднего'
+    param['profession'] = 'штурман марсохода'
+    param['sex'] = 'male'
+    param['motivation'] = 'Всегда мечтал застрять на Марсе'
+    param['ready'] = 'True'
+    return render_template('auto_answer.html', data=param)
+
+
+@app.route('/astronaut_selection', methods=['POST', 'GET'])
+def form_sample():
+    if request.method == 'GET':
+        return render_template('astronaut_selection.html', title='Регистрация')
+    elif request.method == 'POST':
+        select = {}
+        select['surname'] = request.form['surname']
+        select['name'] = request.form['name']
+        select['email'] = request.form['email']
+        select['education'] = request.form['education']
+        select['profl1'] = request.form['profl1']
+        select['profl2'] = request.form['profl2']
+        select['profl3'] = request.form['profl3']
+        select['profl4'] = request.form['profl4']
+        select['profl5'] = request.form['profl5']
+        select['sex'] = request.form['sex']
+        select['about'] = request.form['about']
+        select['accept'] = request.form['accept']
+        return render_template("Форма отправлена")
+
 
 if __name__ == '__main__':
-    app.run(port=8080, host='127.0.0.1')
+    app.run(port=8080, host='127.0.0.1', debug=True)
