@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, url_for, render_template, redirect, request
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
@@ -125,6 +127,7 @@ def distribution():
     users = ['Дима', 'Вася', 'Петя', 'Таня', 'Маша', 'Варя', 'Геракл']
     return render_template('distribution.html', title='По каютам!', spisok_users=users)
 
+
 @app.route('/answer')
 @app.route("/auto_answer")
 def auto_answer():
@@ -160,6 +163,46 @@ def form_sample():
         select['accept'] = request.form['accept']
         return render_template("Форма отправлена")
 
+
+@app.route('/sample_file_upload', methods=['POST', 'GET'])
+def sample_file_upload():
+    if request.method == 'GET':
+        return f'''<!doctype html>
+                        <html lang="en">
+                          <head>
+                            <meta charset="utf-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+                             <link rel="stylesheet"
+                             href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+                             integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+                             crossorigin="anonymous">
+                            <link rel="stylesheet" type="text/css" href="{url_for('static', filename='css/style.css')}" />
+                            <title>Пример загрузки файла</title>
+                          </head>
+                          <body>
+                            <h1>Загрузим файл</h1>
+                            <form method="post" enctype="multipart/form-data">
+                               <div class="form-group">
+                                    <label for="photo">Выберите файл</label>
+                                    <input type="file" class="form-control-file" id="photo" name="file">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Отправить</button>
+                            </form>
+                          </body>
+                        </html>'''
+    elif request.method == 'POST':
+        f = request.files['file']
+        print(f.read())
+        return "Форма отправлена"
+
+@app.route('/carousel', methods=['POST', 'GET'])
+def carousel():
+    if request.method == 'POST':
+        f = request.files['file']
+        f.save(f"static/img/cash/{len(os.listdir('static/img/cash'))}.png")
+    return render_template('carousel.html', title='Дизайн',
+                           imgs=[url_for("static", filename=f"img/cash/{file}")
+                                 for file in os.listdir('static/img/cash')])
 
 if __name__ == '__main__':
     app.run(port=8080, host='127.0.0.1', debug=True)
